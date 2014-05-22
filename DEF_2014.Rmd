@@ -1,0 +1,95 @@
+The Crisis of Health Universal Coverage in Italy: 2010-2018
+========================================================
+Stefano Olgiati, Alessandro Danovi
+-------------------------------------------------------
+**University of Bergamo**
+
+
+
+```{r}
+require(ggplot2)
+require(data.table)
+require(plyr)
+
+# Read the raw dataset into R
+# The raw data can be downloaded from https://github.com/SAO65/DEF_2014 
+data <- read.csv("/Users/stefanoolgiati/Desktop/Framework_2/DEF_2014/data.csv")
+names(data)
+data
+
+# Synthesize DPEF 2011 and DEF 2014
+data.summary <- ddply(data, c("document", "entry", "status"), summarise,
+                      mean = round(mean(value), 2),
+                      sd  = round(sd(value), 2),
+                      median = round(median(value), 2),
+                      lowlim = round(mean - 1.96 *sd, 2),
+                      uplim = round(mean + 1.96*sd, 2))
+data.summary
+
+# Analyse the Budget for DPEF 2011 and DEF 2014
+dt <- data.table(data)
+tables()
+
+dt.gdp.dpef2011 <- dt[dt$document == "dpef2011" & dt$entry == "gdp" & dt$status == "budget",list(mean(value), sd(value))]
+dt.gdp.dpef2011
+
+dt.t.dpef2011 <- dt[dt$document == "dpef2011" & dt$entry == "t"& dt$status == "budget",list(mean(value), sd(value))]
+dt.t.dpef2011
+
+dt.h.dpef2011 <- dt[dt$document == "dpef2011" & dt$entry == "h"& dt$status == "budget",list(mean(value), sd(value))]
+dt.h.dpef2011
+
+dt.nh.dpef2011 <- dt[dt$document == "dpef2011" & dt$entry == "nh"& dt$status == "budget",list(mean(value), sd(value))]
+dt.nh.dpef2011
+
+dt.gdp.def2014 <- dt[dt$document == "def2014" & dt$entry == "gdp"& dt$status == "budget",list(mean(value), sd(value))]
+dt.gdp.def2014
+
+dt.t.def2014 <- dt[dt$document == "def2014" & dt$entry == "t"& dt$status == "budget",list(mean(value), sd(value))]
+dt.t.def2014
+
+dt.h.def2014 <- dt[dt$document == "def2014" & dt$entry == "h"& dt$status == "budget",list(mean(value), sd(value))]
+dt.h.def2014
+
+dt.nh.def2014 <- dt[dt$document == "def2014" & dt$entry == "nh"& dt$status == "budget",list(mean(value), sd(value))]
+dt.nh.def2014
+
+
+# Plot boxplots of gdp, phe, t, nh and h - both for actual and budget data for DPEF 2011 and DEF 2014
+dt.gdp <- dt[dt$entry == "gdp"]
+dt.gdp
+
+dt.phe <- dt[dt$entry == "phe"]
+dt.phe
+
+dt.t <- dt[dt$entry == "t"]
+dt.t
+
+dt.nh <- dt[dt$entry == "nh"]
+dt.nh
+
+dt.h <- dt[dt$entry == "h"]
+dt.h
+
+dt$document <- factor(dt$document, labels = c("dpef2011", "def2014"))
+dt$document
+
+dt$status <- factor(dt$status, labels = c("actual", "budget"))
+dt$status
+
+qplot(document, value, data = dt.gdp, main="GROSS DOMESTIC PRODUCT",
+      geom="boxplot")+ xlab("Document") + ylab("Thousands of Euros") + facet_grid(.~status, scales="free") + theme(strip.text.y = element_text()) + geom_point() + theme_bw() + geom_boxplot(data=dt.gdp, 
+        mapping=aes(x=document, y=value, color=document))
+
+qplot(document, value, data = dt.phe, main="PUBLIC HEALTH EXPENDITURE",
+      geom="boxplot")+ xlab("Document") + ylab("Thousands of Euros") + facet_grid(.~status, scales="free") + theme(strip.text.y = element_text()) + geom_point() + theme_bw() + geom_boxplot(data=dt.phe,                                                                                                                                               mapping=aes(x=document, y=value, color=document))
+
+qplot(document, value, data = dt.t, main="TOTAL PUBLIC EXPENDITURE AS % OF GDP",
+      geom="boxplot")+ xlab("Document") + ylab("Percent % of GDP") + facet_grid(.~status, scales="free") + theme(strip.text.y = element_text()) + geom_point() + theme_bw() + geom_boxplot(data=dt.t, mapping=aes(x=document, y=value, color=document))
+
+qplot(document, value, data = dt.nh, main="PUBLIC NON-HEALTH EXPENDITURE AS % OF GDP",
+      geom="boxplot")+ xlab("Document") + ylab("Thousands of Euros") + facet_grid(.~status, scales="free") + theme(strip.text.y = element_text()) + geom_point() + theme_bw() + geom_boxplot(data=dt.nh, mapping=aes(x=document, y=value, color=document))
+
+qplot(document, value, data = dt.h, main="HEALTH EXPENDITURE AS % OF GDP",
+      geom="boxplot")+ xlab("Document") + ylab("Thousands of Euros") + facet_grid(.~status, scales="free") + theme(strip.text.y = element_text()) + geom_point() + theme_bw() + geom_boxplot(data=dt.h, mapping=aes(x=document, y=value, color=document))
+```
