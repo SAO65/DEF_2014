@@ -1,0 +1,29 @@
+"","document","entry","description","status","mean","median","sd"
+"1","def2011","gdp","GrossDomesticProduct","actual",1548816,1548816,NA
+"2","def2011","gdp","GrossDomesticProduct","budget",1671938.5,1669713.5,69717.64
+"3","def2011","h","PublicHealthExpenditurePerCentOfGDP","actual",7.33,7.33,NA
+"4","def2011","h","PublicHealthExpenditurePerCentOfGDP","budget",7.19,7.2,0.03
+"5","def2011","nh","PublicNonHealthExpenditurePerCentOfGDP","actual",43.91,43.91,NA
+"6","def2011","nh","PublicNonHealthExpenditurePerCentOfGDP","budget",42.35,42.23,0.55
+"7","def2011","phe","PublicHealthExpenditure","actual",113457,113457,NA
+"8","def2011","phe","PublicHealthExpenditure","budget",120210.25,119746.5,5167.9
+"9","def2011","pnhe","PublicNonHealthExpenditure","actual",680056,680056,NA
+"10","def2011","pnhe","PublicNonHealthExpenditure","budget",707842.5,705037,21010.61
+"11","def2011","t","TotalPublicExpenditurePerCentOfGDP","actual",51.23,51.23,NA
+"12","def2011","t","TotalPublicExpenditurePerCentOfGDP","budget",49.54,49.4,0.55
+"13","def2011","tpe","TotalPublicExpenditure","actual",793513,793513,NA
+"14","def2011","tpe","TotalPublicExpenditure","budget",828052.75,824783.5,26173.05
+"15","def2014","gdp","GrossDomesticProduct","actual",1564692,1563468,11879.91
+"16","def2014","gdp","GrossDomesticProduct","budget",1682060.2,1676571,80511.19
+"17","def2014","h","PublicHealthExpenditurePerCentOfGDP","actual",7.07,7.02,0.12
+"18","def2014","h","PublicHealthExpenditurePerCentOfGDP","budget",6.92,6.93,0.1
+"19","def2014","nh","PublicNonHealthExpenditurePerCentOfGDP","actual",43.87,44,0.43
+"20","def2014","nh","PublicNonHealthExpenditurePerCentOfGDP","budget",42.43,42.5,1.26
+"21","def2014","phe","PublicHealthExpenditure","actual",110621.25,110352.5,1499.06
+"22","def2014","phe","PublicHealthExpenditure","budget",116264.4,116149,3901.15
+"23","def2014","pnhe","Public Non-Health Expenditure","actual",686326.75,686529,4928.99
+"24","def2014","pnhe","Public Non-Health Expenditure","budget",712879.4,712504,12841.28
+"25","def2014","t","TotalPublicExpenditurePerCentOfGDP","actual",50.94,51.12,0.44
+"26","def2014","t","TotalPublicExpenditurePerCentOfGDP","budget",49.35,49.43,1.36
+"27","def2014","tpe","Total Public Expenditure","actual",796948,796703,3527.66
+"28","def2014","tpe","Total Public Expenditure","budget",829143.8,828653,16736.61

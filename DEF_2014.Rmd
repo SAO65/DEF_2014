@@ -1,69 +1,43 @@
-The Crisis of Health Universal Coverage in Italy: 2010-2018
+The Crisis of Health Universal Coverage in Italy
 ========================================================
 Stefano Olgiati, Alessandro Danovi
 -------------------------------------------------------
 **University of Bergamo**
 
-
-
 ```{r}
-require(ggplot2)
-require(data.table)
-require(plyr)
+# Reading the raw dataset into R.
+# The raw data can be downloaded from https://github.com/SAO65/DEF_2014/blob/master/data.csv
 
-# Read the raw dataset into R
-# The raw data can be downloaded from https://github.com/SAO65/DEF_2014 
 data <- read.csv("/Users/stefanoolgiati/Desktop/Framework_2/DEF_2014/data.csv")
 names(data)
-data
+head(data, 20)
 
-# Synthesize DPEF 2011 and DEF 2014
-data.summary <- ddply(data, c("document", "entry", "status"), summarise,
+# Synthesize DEF 2011 and DEF 2014
+require(plyr)
+
+data.summary <- ddply(data, c("document", "entry", "description", "status"), summarise,
                       mean = round(mean(value), 2),
-                      sd  = round(sd(value), 2),
                       median = round(median(value), 2),
-                      lowlim = round(mean - 1.96 *sd, 2),
-                      uplim = round(mean + 1.96*sd, 2))
+                      sd = round(sd(value), 2))
 data.summary
+write.csv(file = "data.summary.csv", x = data.summary)
 
-# Analyse the Budget for DPEF 2011 and DEF 2014
+
+# Plot boxplots of gdp, phe, t, nh and h - both for actual and budget data for DEF 2011 and DEF 2014
+require(data.table)
+
 dt <- data.table(data)
+dt
 tables()
 
-dt.gdp.dpef2011 <- dt[dt$document == "dpef2011" & dt$entry == "gdp" & dt$status == "budget",list(mean(value), sd(value))]
-dt.gdp.dpef2011
-
-dt.t.dpef2011 <- dt[dt$document == "dpef2011" & dt$entry == "t"& dt$status == "budget",list(mean(value), sd(value))]
-dt.t.dpef2011
-
-dt.h.dpef2011 <- dt[dt$document == "dpef2011" & dt$entry == "h"& dt$status == "budget",list(mean(value), sd(value))]
-dt.h.dpef2011
-
-dt.nh.dpef2011 <- dt[dt$document == "dpef2011" & dt$entry == "nh"& dt$status == "budget",list(mean(value), sd(value))]
-dt.nh.dpef2011
-
-dt.gdp.def2014 <- dt[dt$document == "def2014" & dt$entry == "gdp"& dt$status == "budget",list(mean(value), sd(value))]
-dt.gdp.def2014
-
-dt.t.def2014 <- dt[dt$document == "def2014" & dt$entry == "t"& dt$status == "budget",list(mean(value), sd(value))]
-dt.t.def2014
-
-dt.h.def2014 <- dt[dt$document == "def2014" & dt$entry == "h"& dt$status == "budget",list(mean(value), sd(value))]
-dt.h.def2014
-
-dt.nh.def2014 <- dt[dt$document == "def2014" & dt$entry == "nh"& dt$status == "budget",list(mean(value), sd(value))]
-dt.nh.def2014
-
-
-# Plot boxplots of gdp, phe, t, nh and h - both for actual and budget data for DPEF 2011 and DEF 2014
 dt.gdp <- dt[dt$entry == "gdp"]
 dt.gdp
 
 dt.phe <- dt[dt$entry == "phe"]
 dt.phe
 
-dt.t <- dt[dt$entry == "t"]
-dt.t
+dt.pnhe <- dt[dt$entry == "pnhe"]
+dt.pnhe
 
 dt.nh <- dt[dt$entry == "nh"]
 dt.nh
@@ -71,25 +45,35 @@ dt.nh
 dt.h <- dt[dt$entry == "h"]
 dt.h
 
-dt$document <- factor(dt$document, labels = c("dpef2011", "def2014"))
+dt$document <- factor(dt$document, labels = c("def2011", "def2014"))
 dt$document
 
 dt$status <- factor(dt$status, labels = c("actual", "budget"))
 dt$status
 
+require(ggplot2)
+
 qplot(document, value, data = dt.gdp, main="GROSS DOMESTIC PRODUCT",
       geom="boxplot")+ xlab("Document") + ylab("Thousands of Euros") + facet_grid(.~status, scales="free") + theme(strip.text.y = element_text()) + geom_point() + theme_bw() + geom_boxplot(data=dt.gdp, 
         mapping=aes(x=document, y=value, color=document))
 
-qplot(document, value, data = dt.phe, main="PUBLIC HEALTH EXPENDITURE",
-      geom="boxplot")+ xlab("Document") + ylab("Thousands of Euros") + facet_grid(.~status, scales="free") + theme(strip.text.y = element_text()) + geom_point() + theme_bw() + geom_boxplot(data=dt.phe,                                                                                                                                               mapping=aes(x=document, y=value, color=document))
-
-qplot(document, value, data = dt.t, main="TOTAL PUBLIC EXPENDITURE AS % OF GDP",
-      geom="boxplot")+ xlab("Document") + ylab("Percent % of GDP") + facet_grid(.~status, scales="free") + theme(strip.text.y = element_text()) + geom_point() + theme_bw() + geom_boxplot(data=dt.t, mapping=aes(x=document, y=value, color=document))
+qplot(document, value, data = dt.pnhe, main="TOTAL PUBLIC NON-HEALTH EXPENDITURE",
+      geom="boxplot")+ xlab("Document") + ylab("Percent % of GDP") + facet_grid(.~status, scales="free") + theme(strip.text.y = element_text()) + geom_point() + theme_bw() + geom_boxplot(data=dt.pnhe, mapping=aes(x=document, y=value, color=document))
 
 qplot(document, value, data = dt.nh, main="PUBLIC NON-HEALTH EXPENDITURE AS % OF GDP",
       geom="boxplot")+ xlab("Document") + ylab("Thousands of Euros") + facet_grid(.~status, scales="free") + theme(strip.text.y = element_text()) + geom_point() + theme_bw() + geom_boxplot(data=dt.nh, mapping=aes(x=document, y=value, color=document))
 
-qplot(document, value, data = dt.h, main="HEALTH EXPENDITURE AS % OF GDP",
+qplot(document, value, data = dt.h, main="PUBLIC HEALTH EXPENDITURE AS % OF GDP",
       geom="boxplot")+ xlab("Document") + ylab("Thousands of Euros") + facet_grid(.~status, scales="free") + theme(strip.text.y = element_text()) + geom_point() + theme_bw() + geom_boxplot(data=dt.h, mapping=aes(x=document, y=value, color=document))
-```
+
+# Calculate Unpaired Welch Two Sample t-test for difference of h between DEF 2011 and DEF 2014
+dt.h.def2011 <- dt[dt$entry == "h" & dt$document == "def2011"]
+dt.h.def2014 <- dt[dt$entry == "h" & dt$document == "def2014"]
+h.def2011 <- as.numeric(dt.h.def2011$value)
+h.def2014 <- as.numeric(dt.h.def2014$value)
+t.test(h.def2011,h.def2014)
+
+# Calculate Confidence Interval for difference of h between DEF 2011 and DEF 2014
+probs <- c(.025, 0.975)
+quantile(h.def2011,probs)
+quantile(h.def2014,probs)
