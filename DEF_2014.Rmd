@@ -66,14 +66,24 @@ qplot(document, value, data = dt.nh, main="PUBLIC NON-HEALTH EXPENDITURE AS % OF
 qplot(document, value, data = dt.h, main="PUBLIC HEALTH EXPENDITURE AS % OF GDP",
       geom="boxplot")+ xlab("Document") + ylab("Thousands of Euros") + facet_grid(.~status, scales="free") + theme(strip.text.y = element_text()) + geom_point() + theme_bw() + geom_boxplot(data=dt.h, mapping=aes(x=document, y=value, color=document))
 
-# Calculate Unpaired Welch Two Sample t-test for difference of h between DEF 2011 and DEF 2014
+# Calculate Unpaired Welch Two Sample t-test for difference of h between DEF 2011 and DEF 2014 for public health and non-health financing
 dt.h.def2011 <- dt[dt$entry == "h" & dt$document == "def2011"]
 dt.h.def2014 <- dt[dt$entry == "h" & dt$document == "def2014"]
 h.def2011 <- as.numeric(dt.h.def2011$value)
 h.def2014 <- as.numeric(dt.h.def2014$value)
 t.test(h.def2011,h.def2014)
 
+dt.nh.def2011 <- dt[dt$entry == "nh" & dt$document == "def2011"]
+dt.nh.def2014 <- dt[dt$entry == "nh" & dt$document == "def2014"]
+nh.def2011 <- as.numeric(dt.nh.def2011$value)
+nh.def2014 <- as.numeric(dt.nh.def2014$value)
+t.test(nh.def2011,nh.def2014)
+
 # Calculate Confidence Interval for difference of h between DEF 2011 and DEF 2014
+probs <- c(.025, 0.975)
+quantile(nh.def2011,probs)
+quantile(nh.def2014,probs)
+
 probs <- c(.025, 0.975)
 quantile(h.def2011,probs)
 quantile(h.def2014,probs)
