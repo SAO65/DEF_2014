@@ -27,23 +27,17 @@ write.csv(file = "data.summary.csv", x = data.summary)
 require(data.table)
 
 dt <- data.table(data)
-dt
 tables()
 
 dt.gdp <- dt[dt$entry == "gdp"]
-dt.gdp
 
 dt.phe <- dt[dt$entry == "phe"]
-dt.phe
 
 dt.pnhe <- dt[dt$entry == "pnhe"]
-dt.pnhe
 
 dt.nh <- dt[dt$entry == "nh"]
-dt.nh
 
 dt.h <- dt[dt$entry == "h"]
-dt.h
 
 dt$document <- factor(dt$document, labels = c("def2011", "def2014"))
 dt$document
