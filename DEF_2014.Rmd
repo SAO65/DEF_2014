@@ -8,7 +8,7 @@ Stefano Olgiati, Alessandro Danovi
 # Reading the raw dataset into R.
 # The raw data can be downloaded from https://github.com/SAO65/DEF_2014/blob/master/data.csv
 
-data <- read.csv("/Users/stefanoolgiati/Desktop/Framework_2/DEF_2014/data.csv")
+data <- read.csv("/Users/stefanoolgiati/Desktop/CAVENDISH/Framework_2/DEF_2014/data.csv")
 names(data)
 head(data, 20)
 
@@ -48,17 +48,17 @@ dt$status
 require(ggplot2)
 
 qplot(document, value, data = dt.gdp, main="GROSS DOMESTIC PRODUCT",
-      geom="boxplot")+ xlab("Document") + ylab("Thousands of Euros") + facet_grid(.~status, scales="free") + theme(strip.text.y = element_text()) + geom_point() + theme_bw() + geom_boxplot(data=dt.gdp, 
+      geom="boxplot")+ xlab("Document") + ylab("Million Euros") + facet_grid(.~status, scales="free") + theme(strip.text.y = element_text()) + geom_point() + theme_bw() + geom_boxplot(data=dt.gdp, 
         mapping=aes(x=document, y=value, color=document))
 
-qplot(document, value, data = dt.pnhe, main="TOTAL PUBLIC NON-HEALTH EXPENDITURE",
-      geom="boxplot")+ xlab("Document") + ylab("Percent % of GDP") + facet_grid(.~status, scales="free") + theme(strip.text.y = element_text()) + geom_point() + theme_bw() + geom_boxplot(data=dt.pnhe, mapping=aes(x=document, y=value, color=document))
+qplot(document, value, data = dt.pnhe, main="PUBLIC NON-HEALTH EXPENDITURE",
+      geom="boxplot")+ xlab("Document") + ylab("Million Euros") + facet_grid(.~status, scales="free") + theme(strip.text.y = element_text()) + geom_point() + theme_bw() + geom_boxplot(data=dt.pnhe, mapping=aes(x=document, y=value, color=document))
 
-qplot(document, value, data = dt.nh, main="PUBLIC NON-HEALTH EXPENDITURE AS % OF GDP",
-      geom="boxplot")+ xlab("Document") + ylab("Thousands of Euros") + facet_grid(.~status, scales="free") + theme(strip.text.y = element_text()) + geom_point() + theme_bw() + geom_boxplot(data=dt.nh, mapping=aes(x=document, y=value, color=document))
+qplot(document, value, data = dt.phe, main="PUBLIC HEALTH EXPENDITURE",
+      geom="boxplot")+ xlab("Document") + ylab("Million Euros") + facet_grid(.~status, scales="free") + theme(strip.text.y = element_text()) + geom_point() + theme_bw() + geom_boxplot(data=dt.phe, mapping=aes(x=document, y=value, color=document))
 
 qplot(document, value, data = dt.h, main="PUBLIC HEALTH EXPENDITURE AS % OF GDP",
-      geom="boxplot")+ xlab("Document") + ylab("Thousands of Euros") + facet_grid(.~status, scales="free") + theme(strip.text.y = element_text()) + geom_point() + theme_bw() + geom_boxplot(data=dt.h, mapping=aes(x=document, y=value, color=document))
+      geom="boxplot")+ xlab("Document") + ylab("% of the GDP") + facet_grid(.~status, scales="free") + theme(strip.text.y = element_text()) + geom_point() + theme_bw() + geom_boxplot(data=dt.h, mapping=aes(x=document, y=value, color=document))
 
 # Calculate Unpaired Welch Two Sample t-test for difference of h between DEF 2011 and DEF 2014 for public health and non-health financing
 dt.h.def2011 <- dt[dt$entry == "h" & dt$document == "def2011"]
